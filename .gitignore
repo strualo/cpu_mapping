@@ -1,0 +1,16 @@
+bin
+build
+catkin
+devel
+papers
+catkin_generated
+gtest
+test_results
+CMakeFiles
+cmake_install.cmake
+Makefile
+.idea
+.catkin_workspace
+.vscode
+.ycm_extra_conf.py
+.ycm_extra_conf.pyc

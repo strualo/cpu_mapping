@@ -1,0 +1,55 @@
+<launch>
+    <!--default定义的值可以在launch的时候通过命令行指定而被覆盖,而value定义的值不会-->
+    <include file="$(find ray_ground_filter)/launch/ray_ground_filter.launch" />
+    <!--<include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />-->
+
+    <param name="use_sim_time" value="false" type="bool"/>
+
+    <node pkg="ndt_mapping" type="fast_ndt_mapping_node" name="fast_ndt_mapping_node" output="screen">
+        <rosparam file="$(find ndt_mapping)/params/params_ndt_mapping.yaml" command="load"/>
+        <!--<param name="planning_map_folder" type="string" value="/home/sin/Data/ros_bag/map/planning_map/" />-->
+
+        <!--生成用于制作costmap的点云地图-->
+        <param name="cost_map_folder" type="string" value="/home/cost_map_done/" />
+
+        <!-- piece_map 相关参数: piece map 需要开启fullmap -->
+        <!--<param name="if_create_piece_map" type="bool" value="false" />
+        <param name="piece_map_folder" type="string" value="/home/robot/Desktop/smartcar/src/Smartcar-ROS/map/ndt_mapping/piece_map/" />
+        <param name="piece_step" type="double" value="30.0" />-->
+    </node>
+
+	<node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+
+	    <!-- resolution in meters per pixel -->
+	    <param name="resolution" value="0.1" />
+
+	    <!-- name of the fixed frame -->
+	    <param name="frame_id" type="string" value="/map" />
+
+	    <!-- max range / depth resolution of the kinect in meter -->
+	    <param name="sensor_model/max_range" value="1000.0" />
+	    <param name="latch" value="true" />
+
+	    <!-- max/min height for occupancy map, should be in meters -->
+	    <param name="pointcloud_max_z" value="1000" />
+	    <param name="pointcloud_min_z" value="-1000" />
+
+	    <!-- topic from where pointcloud2 messages are subscribed -->
+	    <remap from="cloud_in" to="/global_map/costmap_cloud" />
+
+	  </node>
+
+    <node pkg="tf" type="static_transform_publisher" name="base2laser" args="0.5 0 0.3 0 0 0 1  base_link velodyne 100" />
+    <!--<node pkg="tf" type="static_transform_publisher" name="base2imu" args="0.105 0.16 0.17 0 0 0 1 base_link base_imu_link 100" />-->
+    <!--<node pkg="tf" type="static_transform_publisher" name="base2rr" args="-0.178 -0.178 -0.165 0 0 0 1 base_link wheel_rr 100" />-->
+    <node pkg="rviz" type="rviz" name="Rviz_for_mapping" args="-d $(find ndt_mapping)/rviz/mapping.rviz" />
+    
+</launch>
+
+
+<!--  rosbag record -o out /globalmap/map_full   -->
+<!--  rosbag record -o out /global_map/costmap_cloud  -->
+
+<!--  rosrun pcl_ros bag_to_pcd out /globalmap/map_full   pcd  -->
+<!--  rosrun pcl_ros bag_to_pcd out /global_map/costmap_cloud pcd1  -->
+

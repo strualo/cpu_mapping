@@ -1,0 +1,63 @@
+#>>>>>>>>>Smartcar Lab
+laser_frame: "velodyne"                                 #
+imu_topic: "/imu"               # 
+lidar_topic: "/velodyne_points"                           # 
+# lidar_topic: "/ray_filter/velodyne_points_filtered"                           # 用过滤地面后的雷达数据建图会导致z轴上飘
+
+#>>>>>>>>>Ese
+# laser_frame: "laser"                                  # ese
+imu_topic: "/imu/data"                 # ese
+# lidar_topic:  "/lslidar_point_cloud"                    # ese
+
+#>>>>>>>>>Switch
+use_imu: false
+use_odom: false
+imu_upside_down: false
+
+visualize: false
+ndt_method_type: 1  # 0:pcl 1:cpu 2:gpu 3:omp 4:gpu_ptr
+
+# >>>>>>> 定义发布不同类型的map
+is_publish_map_full: true
+is_publish_map_for_costmap: true   #生成用于制作costmap的点云地图
+is_publish_map_for_planning: false
+
+# >>>>>>> 降采样参数
+voxel_leaf_size: 0.5  # ndt.setInputSource
+global_voxel_leafsize: 0.1   # 发布做下采样后的全局地图, 也就是我们用于重定位的点云地图
+costmap_voxel_size: 0.5 #输出用于costmap的点云地图的降采样
+
+#>>>>>>>>>common params
+base_frame: "base_link"
+odom_topic: "/odom_raw"
+incremental_voxel_update: "true"
+
+passthrough_ground_height: -0.25  
+
+# ndt params
+ndt_resolution: 1.0
+ndt_step_size: 0.1
+ndt_trans_eps: 0.01
+ndt_max_iter: 30
+
+# scan-points filter params
+min_scan_range: 1.0
+max_scan_range: 90.0
+
+
+# global map-set params
+min_add_scan_shift: 1.0  # add to voxeled_local_map  设置过小会导致建图失败
+min_update_target_map: 1.0  # add to global_map
+
+
+extract_length: 60  # extract target_map from voxeled_local_map
+extract_width: 50
+
+tf_timeout: 1.0
+
+# piece-map params
+# # piece_map_folder: #
+# # piece_step: 30.0  # 用于划分全局地图  注: 该值实际上为当前块map中心的可移动范围值
+# # piece_thresh: 5.0 # 用于确定提前多少距离更新地图  # 这个参数应该在points_map_loader里使用
+
+

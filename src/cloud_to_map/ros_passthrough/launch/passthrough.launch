@@ -1,0 +1,10 @@
+<launch>
+
+  <node name="ros_passthrough_node" pkg="ros_passthrough" type="ros_passthrough">  
+    <rosparam>
+        top: 200
+        bottom: -200
+    </rosparam>
+  </node>
+
+</launch>
