@@ -1,4 +1,4 @@
-建图: roslaunch ndt_mapping ndt_mapping.launch
+﻿建 图: roslaunch ndt_mapping ndt_mapping.launch
 
 调试记录： 1.用过滤地面后的雷达数据建图会导致z轴上飘
 
