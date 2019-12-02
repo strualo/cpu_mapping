@@ -14,7 +14,7 @@
 
         <!-- piece_map 相关参数: piece map 需要开启fullmap -->
         <!--<param name="if_create_piece_map" type="bool" value="false" />
-        <param name="piece_map_folder" type="string" value="/home/robot/Desktop/smartcar/src/Smartcar-ROS/map/ndt_mapping/piece_map/" />
+        <param name="piece_map_folder" type="string" value="/home/robot/Desktop/" />
         <param name="piece_step" type="double" value="30.0" />-->
     </node>
 
